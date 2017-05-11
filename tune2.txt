@@ -1,0 +1,85 @@
+(setq d 0.3333333333333333)
+.
+(setq pitches '(440 466.164 493.883 523.251 554.365 587.33 622.254 659.255 698.456 739.989 783.991 830.609))
+.
+(setq notes '((a1 1) (b1 3) (c1 4) (d1 6) (e1 8) (f1 9) (g1 11)
+			(a2 13) (b2 15) (c2 16) (d2 18) (e2 20) (f2 21) (g2 23)
+			(a3 25) (x 0)))
+.
+(setq phrase1a '(b1 c1 d1 (e1 3) d1 e1 a2 g1 e1 d1 c1 (a1 3)))
+.
+(setq phrase1b '(x  x  x  (c1 3) b1 c1 f1 e1 c1 a1 a1 (a1 3)))
+.
+(setq phrase2a '(c1 e1 f1 (g1 3) a2 g1 e1 c1 e1 (d1 5)))
+.
+(setq phrase2b '(a1 b1 d1 (e1 3) f1 e1 c1 a1 c1 (b1 5)))
+.
+(setq phrase3a '(b1 c1 d1 (e1 3) f1 e1 d1 c1 d1 (c1 5)))
+.
+(setq phrase3b '(x  a1 b1 (c1 3) c1 a1 a1 b1 b1 (c1 5)))
+.
+(setq phrase4a '(g1 a2 b2 (c2 3) b2 b2 a2 g1 e1 g1 e1 (c1 3)))
+.
+(setq phrase5a '(g1 a2 b2 (c2 3) b2 b2 a2 g1 e1 (d1 5)))
+.
+(setq phrase6a '(g1 g1 g1 (e2 3) d2 d2 c2 a2 c2 g1 e1 (c1 3)))
+.
+(setq phrase7a '(b1 c1 d1 e1 a2 g1 e1 d1 c1 a1 b1 (c1 5)))
+.
+(setq phrase0 '((x 16)))
+.
+(setq tune1 (append phrase1a phrase2a phrase1a phrase3a phrase4a phrase5a phrase6a phrase7a))
+.
+(setq tune2 (append phrase1b phrase2b phrase1b phrase3b phrase4a phrase5a phrase6a phrase3b))
+.
+(defun maplist (fn l)
+	(if (eq l nil) (funcall fn nil)
+		(cons (funcall fn (car l)) (maplist fn (cdr l)))))
+.
+(defun expand (i p d)
+	(cond
+		((eq p nil)
+			(list 0 0 0))
+		((and (listp p) (eq (car p) 'x))
+			(list 0 0 (* d (cadr p))))
+		((listp p)
+			(list i (car p) (* d (cadr p))))
+		((eq p 'x)
+			(list 0 0 d))
+		(t (list i p d))))
+.
+(defun nth (n l)
+	(if (eq l nil) nil
+		(if (= n 1) (car l)
+			(nth (- n 1) (cdr l)))))
+.
+(defun pitch (p) (if (= p 0) 0 (nth p pitches)))
+.
+(defun pitcho (p)
+	(if (eq p nil)
+		0
+		(if (< p 13) (pitch p) (* 2 (pitcho (- p 12))))))
+.
+(defun pitchn (n) (list (first n) (pitcho (second n)) (third n)))
+.
+(defun pitchl (ns) (if (eq ns nil) nil (cons (pitchn (car ns)) (pitchl (cdr ns)))))
+.
+(defun lookup (map key) (if (eq map nil) nil (if (eq (car (car map)) key) (car (cdr (car map)))
+					(lookup (cdr map) key))))
+.
+(defun note (n)
+	(list (first n) (lookup notes (second n)) (third n)))
+.
+(defun notel (ns) (if (eq ns nil) nil (cons (note (car ns)) (notel (cdr ns)))))
+.
+(defun expandl (i ps d)
+	(if (eq ps nil)
+		nil
+		(cons (expand i (car ps) d) (expandl i (cdr ps) d))))
+.
+(setq channel1 (pitchl (notel (expandl 5 tune1 d))))
+.
+(setq channel2 (pitchl (notel (expandl 1 tune2 d))))
+.
+(setq channels (list channel1 channel2))
+.

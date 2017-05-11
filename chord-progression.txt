@@ -1,0 +1,131 @@
+(setq d 1)
+.
+"utility functions"
+.
+(defun repeat (n l)
+	(if (<= n 0)
+		nil
+		(cons l (repeat (- n 1) l))))
+.
+(defun repeat-app (n l)
+	(if (<= n 0)
+		nil
+		(append l (repeat-app (- n 1) l))))
+.
+"useful references"
+.
+(setq pitches '(440 466.164 493.883 523.251 554.365 587.33 622.254 659.255 698.456 739.989 783.991 830.609))
+.
+(setq notes '(
+			(a1 1) (b1 3) (c1 4) (d1 6) (e1 8) (f1 9) (g1 11)
+			(a2 13) (b2 15) (c2 16) (d2 18) (e2 20) (f2 21) (g2 23)
+			(a3 25) (x 0)))
+.
+"more utility functions"
+.
+(defun maplist (fn l)
+	(if (eq l nil) nil
+		(cons (funcall fn (car l)) (maplist fn (cdr l)))))
+.
+(defun expand (i p d)
+	(cond
+		((eq p nil)
+			(list 0 0 0))
+		((and (listp p) (eq (car p) 'x))
+			(list 0 0 (* d (cadr p))))
+		((listp p)
+			(list i (car p) (* d (cadr p))))
+		((eq p 'x)
+			(list 0 0 d))
+		(t (list i p d))))
+.
+(defun nth (n l)
+	(if (eq l nil) nil
+		(if (= n 1) (car l)
+			(nth (- n 1) (cdr l)))))
+.
+(defun pitch (p) (if (= p 0) 0 (nth p pitches)))
+.
+(defun pitcho (p)
+	(if (eq p nil)
+		0
+		(if (< p 13) (pitch p) (* 2 (pitcho (- p 12))))))
+.
+(defun pitchn (n) (list (first n) (pitcho (second n)) (third n)))
+.
+(defun pitchl (ns) (if (eq ns nil) nil (cons (pitchn (car ns)) (pitchl (cdr ns)))))
+.
+(defun lookup (map key) (if (eq map nil) nil (if (eq (car (car map)) key) (car (cdr (car map)))
+					(lookup (cdr map) key))))
+.
+(defun note (n)
+	(list (first n) (lookup notes (second n)) (third n)))
+.
+(defun notel (ns) (if (eq ns nil) nil (cons (note (car ns)) (notel (cdr ns)))))
+.
+(defun expandl (i ps d)
+	(if (eq ps nil)
+		nil
+		(cons (expand i (car ps) d) (expandl i (cdr ps) d))))
+.
+"the music is defined here"
+.
+(setq progression '(1 6 8 1))
+.
+(defun up-octave (p) (+ p 12))
+.
+(defun up-octave-l (ps) (maplist #'up-octave ps))
+.
+(setq progression-8va (up-octave-l progression))
+.
+"functions for converting a progression into lists of channels - let '1' mean triad 1,5,8"
+.
+(defun expand-progression1 (p)
+	(if (eq p nil)
+		nil
+		(cons (+ 0 (car p)) (expand-progression1 (cdr p)))))
+.
+(defun expand-progression2 (p)
+	(if (eq p nil)
+		nil
+		(cons (+ 4 (car p)) (expand-progression2 (cdr p)))))
+.
+(defun expand-progression3 (p)
+	(if (eq p nil)
+		nil
+		(cons (+ 7 (car p)) (expand-progression3 (cdr p)))))
+.
+(defun expand-triad (p)
+	(list
+		(pitchl (expandl 2 (expand-progression1 p) d))
+		(pitchl (expandl 2 (expand-progression2 p) d))
+		(pitchl (expandl 2 (expand-progression3 p) d))
+	))
+.
+(defun expand-arpeggio-p (ps)
+	(if (eq ps nil)
+		nil
+		(append
+			(let ( (p (car ps)) )
+				(list p (+ p 4) (+ p 7) p)
+			)
+			(expand-arpeggio-p (cdr ps))
+		)))
+.
+(defun expand-arpeggio (ps)
+	(list
+		(pitchl
+			(expandl
+				2
+				(expand-arpeggio-p ps)
+				(/ d 4)
+			))))
+.
+"the music is assembled here"
+.
+"ultimately, we want a list of channels"
+.
+"(setq channels (append (expand-arpeggio progression-8va) (expand-triad progression)))"
+.
+(setq channels (expand-triad progression))
+.
