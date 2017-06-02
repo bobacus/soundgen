@@ -9,19 +9,19 @@ public class SynthSampler extends AbstractSampler {
 
     SynthSampler(Synth s, SamplerParams p) {
         super(p);
-        mSynth = s;
-        xInc = 1.0 / mSampleRate;
+        synth = s;
+        xInc = 1.0 / params.getSampleRate();
     }
 
-    private final Synth mSynth;
+    private final Synth synth;
     private final double xInc;
 
     @Override
     public Iterator<SampleChunk> getSamples(int duration, int start) {
         double[] b = new double[duration];
-        double x = start / (double) mSampleRate;
+        double x = start / (double) params.getSampleRate();
         for (int i = 0; i < duration; i++) {
-            b[i] = mSynth.getValue(x);
+            b[i] = synth.getValue(x);
             x += xInc;
         }
         return SingleIterator.create(new SampleChunk(b));

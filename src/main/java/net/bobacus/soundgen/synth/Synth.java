@@ -15,18 +15,18 @@ public abstract class Synth {
     // Synthesizer function subclasses:
     public static class Sine extends Synth {
         Sine() {
-            mFrequency = 1.0;
+            frequency = 1.0;
         }
 
         Sine(double frequency) {
-            mFrequency = frequency;
+            this.frequency = frequency;
         }
 
         public double getValue(double position) {
-            return Math.sin(2 * Math.PI * position * mFrequency);
+            return Math.sin(2 * Math.PI * position * frequency);
         }
 
-        private final double mFrequency;
+        private final double frequency;
     }
 
     // Noise (for percussion, e.g.) N.B. independent of parameter
@@ -59,30 +59,30 @@ public abstract class Synth {
     // g = (f1 + f2) / 2
     public static class Mix2 extends Synth {
         Mix2(Synth f1, Synth f2) {
-            mF1 = f1;
-            mF2 = f2;
+            this.f1 = f1;
+            this.f2 = f2;
         }
 
         public double getValue(double position) {
-            return (mF1.getValue(position) + mF2.getValue(position)) / 2;
+            return (f1.getValue(position) + f2.getValue(position)) / 2;
         }
 
-        private final Synth mF1, mF2;
+        private final Synth f1, f2;
     }
 
     // g(x) = f(x*n)
     public static class Pitch extends Synth {
         Pitch(Synth f, double frequency) {
-            mF = f;
-            mFrequency = frequency;
+            this.f = f;
+            this.frequency = frequency;
         }
 
         public double getValue(double position) {
-            return (mF.getValue(position * mFrequency));
+            return (f.getValue(position * frequency));
         }
 
-        private final Synth mF;
-        private final double mFrequency;
+        private final Synth f;
+        private final double frequency;
     }
 
     // g = 0 (for silence, e.g.)
@@ -96,73 +96,73 @@ public abstract class Synth {
 
     public static class Offset extends Synth {
         Offset(double value) {
-            mValue = value;
+            this.value = value;
         }
 
         public double getValue(double x) {
-            return mValue;
+            return value;
         }
 
-        private final double mValue;
+        private final double value;
     }
 
     // multiplicative mixer: h = fg (e.g. for envelopes)
     public static class MultiMix extends Synth {
         MultiMix(Synth f, Synth g) {
-            mF = f;
-            mG = g;
+            this.f = f;
+            this.g = g;
         }
 
         public double getValue(double position) {
-            return mF.getValue(position) * mG.getValue(position);
+            return f.getValue(position) * g.getValue(position);
         }
 
-        private final Synth mF, mG;
+        private final Synth f, g;
     }
 
     // exponential (e.g. for decay)
     public static class Exponential extends Synth {
         Exponential(double e) {
-            mE = e;
+            this.e = e;
         }
 
         public double getValue(double position) {
-            return Math.pow(mE, position);
+            return Math.pow(e, position);
         }
 
-        private final double mE;
+        private final double e;
     }
 
     // harmonics - specify amplitudes
     public static class Harmonic extends Synth {
         Harmonic(double[] amps) {
-            mAmps = amps;
+            this.amps = amps;
         }
 
         public double getValue(double x) {
             double c = 0;
-            for (int i = 0; i < mAmps.length; i++) {
-                double y = mAmps[i] * Math.sin(2 * Math.PI * x * (i + 1));
+            for (int i = 0; i < amps.length; i++) {
+                double y = amps[i] * Math.sin(2 * Math.PI * x * (i + 1));
                 c += y;
             }
-            return c / mAmps.length;
+            return c / amps.length;
         }
 
-        private final double[] mAmps;
+        private final double[] amps;
     }
 
     // composition: h = f o g
     public static class Composition extends Synth {
         Composition(Synth f, Synth g) {
-            mF = f;
-            mG = g;
+            this.f = f;
+            this.g = g;
         }
 
         public double getValue(double x) {
-            return mF.getValue(mG.getValue(x));
+            return f.getValue(g.getValue(x));
         }
 
-        private final Synth mF, mG;
+        private final Synth f, g;
     }
 
     // frequency function

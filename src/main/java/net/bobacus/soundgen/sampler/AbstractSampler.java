@@ -3,12 +3,10 @@ package net.bobacus.soundgen.sampler;
 
 abstract class AbstractSampler implements Sampler {
 
-    AbstractSampler(SamplerParams p) {
-        mParams = p;
-        mSampleRate = p.getSampleRate();
+    AbstractSampler(SamplerParams params) {
+        this.params = params;
     }
 
-    final SamplerParams mParams;
-    final int mSampleRate;
+    final SamplerParams params;
 
 }

@@ -1,5 +1,8 @@
 package net.bobacus.soundgen.sampler;
 
+/**
+ * A sequence of samples, representing a chunk of the whole.
+ */
 public class SampleChunk {
 
     SampleChunk(double[] samples) {

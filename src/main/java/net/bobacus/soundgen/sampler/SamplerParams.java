@@ -1,26 +1,34 @@
 package net.bobacus.soundgen.sampler;
 
-public class SamplerParams {
+/**
+ * Parameters for audio samplers and output.
+ */
+public final class SamplerParams {
+    /**
+     * @param sampleRate the sample rate, in samples per second
+     * @param bits the resolution of the samples, either 8 or 16 bits
+     * @param channels the number of output channels (1 for mono)
+     */
     public SamplerParams(int sampleRate, int bits, int channels) {
-        mSampleRate = sampleRate;
-        mBits = bits;
-        mChannels = channels;
+        this.sampleRate = sampleRate;
+        this.bits = bits;
+        this.channels = channels;
     }
 
-    private final int mSampleRate;
-    private final int mBits;
-    private final int mChannels;
+    private final int sampleRate;
+    private final int bits;
+    private final int channels;
 
     public int getSampleRate() {
-        return mSampleRate;
+        return sampleRate;
     }
 
     public int getBits() {
-        return mBits;
+        return bits;
     }
 
     public int getChannels() {
-        return mChannels;
+        return channels;
     }
 
 }

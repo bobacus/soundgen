@@ -9,14 +9,14 @@ public class SoundSampler extends SynthSampler {
 
     SoundSampler(Sound s, SamplerParams p) {
         super(s, p);
-        mSound = s;
+        sound = s;
     }
 
-    private final Sound mSound;
+    private final Sound sound;
 
     public Iterator<SampleChunk> getSamples(int duration, int start) {
-        if (start >= mSound.getDuration() * mSampleRate) return EmptyIterator.get();
-        int maxDuration = (int) (mSound.getDuration() * mSampleRate) - start;
+        if (start >= sound.getDuration() * params.getSampleRate()) return EmptyIterator.get();
+        int maxDuration = (int) (sound.getDuration() * params.getSampleRate()) - start;
         int d = duration <= maxDuration ? duration : maxDuration;
         return super.getSamples(d, start);
     }

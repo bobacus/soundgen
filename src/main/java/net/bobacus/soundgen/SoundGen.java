@@ -23,6 +23,7 @@ public class SoundGen {
     private static void playMusic(String filename) throws IOException {
         SamplerParams params = new SamplerParams(44100, 16, 1);
         Music music = new Music(new File(filename));
+
         List<? extends Sampler> samplers = music.getSamplers(params);
         int duration = (int) (music.getDuration() * params.getSampleRate());
         MultiChannelPlayer player = new MultiChannelPlayer();
