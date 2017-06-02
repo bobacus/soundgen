@@ -76,22 +76,11 @@ public class CoreTest extends TestCase
 
 
   /**
-   * Use -gui to enable the gui.
    * @param args command-line arguments.
    */
   public static void main (String[] args)
   {
-    boolean useGui = false;  // default behavior
-
-    if (args.length > 0)
-      for (int i=0; i<args.length; ++i)
-        if (args[i].equalsIgnoreCase("-gui"))
-          useGui = true;
-
-    if (useGui)
-      junit.swingui.TestRunner.run(CoreTest.class);
-    else
-      junit.textui.TestRunner.run(suite());
+    junit.textui.TestRunner.run(suite());
   }
 
 

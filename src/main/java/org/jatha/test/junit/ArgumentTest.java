@@ -96,24 +96,10 @@ public class ArgumentTest extends TestCase {
     }
 
     /**
-     * Use -gui to enable the gui.
      * @param args command-line arguments.
      */
     public static void main (String[] args) {
-        boolean useGui = false;  // default behavior
-        
-        for (int i=0,j=args.length; i<j; i++) {
-            if(args[i].equalsIgnoreCase("-gui")) {
-                useGui = true;
-                break;
-            }
-        }
-
-        if(useGui) {
-            junit.swingui.TestRunner.run(ArgumentTest.class);
-        } else {
-            junit.textui.TestRunner.run(suite());
-        }
+        junit.textui.TestRunner.run(suite());
     }
 
     public static Test suite() {
