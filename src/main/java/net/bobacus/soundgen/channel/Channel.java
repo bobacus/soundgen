@@ -11,15 +11,17 @@ import net.bobacus.soundgen.synth.Sound;
  */
 public class Channel {
 
-	public Channel(Iterator<Sound> i) {
-		mSounds = new ArrayList<>();
-		while (i.hasNext())
-			mSounds.add(i.next());
-	}
-	
-	
-	private final ArrayList<Sound> mSounds;
-	
-	public List<Sound> getSounds() { return mSounds; }
+    public Channel(Iterator<Sound> i) {
+        mSounds = new ArrayList<>();
+        while (i.hasNext())
+            mSounds.add(i.next());
+    }
+
+
+    private final ArrayList<Sound> mSounds;
+
+    public List<Sound> getSounds() {
+        return mSounds;
+    }
 }
 

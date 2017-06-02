@@ -5,14 +5,14 @@ package net.bobacus.soundgen.sampler;
  */
 public class Sample {
 
-	public static byte getBigByte(double value) {
-		int i = (int)(32767*value);
-		return (byte)(i>>8);
-	}
+    public static byte getBigByte(double value) {
+        int i = (int) (32767 * value);
+        return (byte) (i >> 8);
+    }
 
-	public static byte getLittleByte(double value) {
-		int i = (int)(32767*value);
-		return (byte)(i & 0xFF);
-	}
+    public static byte getLittleByte(double value) {
+        int i = (int) (32767 * value);
+        return (byte) (i & 0xFF);
+    }
 
 }
