@@ -190,7 +190,7 @@ public abstract class StandardLispConsOrNil extends StandardLispValue  implement
    * Returns an iterator over the clauses of the path.
    * Each element type is a Clause.
    */
-  public Iterator iterator()
+  public Iterator<LispValue> iterator()
   {
     return new LispConsIterator(this);
   }

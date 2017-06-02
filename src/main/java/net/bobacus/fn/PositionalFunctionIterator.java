@@ -7,10 +7,10 @@ import java.util.Iterator;
 public class PositionalFunctionIterator<T,U> implements Iterator<U> {
 
 	public static <E,F> PositionalFunctionIterator<E,F> create(Iterator<? extends E> iter, PositionalFunction<E,F> fn) {
-		return new PositionalFunctionIterator<E,F>(iter, fn);
+		return new PositionalFunctionIterator<>(iter, fn);
 	}
 	
-	public PositionalFunctionIterator(Iterator<? extends T> iter, PositionalFunction<T,U> fn) {
+	private PositionalFunctionIterator(Iterator<? extends T> iter, PositionalFunction<T, U> fn) {
 		this.iter = iter;
 		this.fn = fn;
 		this.pos = new PositionImpl();

@@ -10,7 +10,7 @@ public class EmptyIterator<E> implements Iterator<E> {
 		return (EmptyIterator<T>) instance;
 	}
 	
-	private final static EmptyIterator<Object> instance = new EmptyIterator<Object>();
+	private final static EmptyIterator<Object> instance = new EmptyIterator<>();
 	
 	private EmptyIterator() { /* empty */ }
 	

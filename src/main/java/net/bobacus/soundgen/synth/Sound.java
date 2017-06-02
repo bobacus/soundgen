@@ -1,11 +1,12 @@
 package net.bobacus.soundgen.synth;
 
 
-// A Sound represents a synthesizer object with duration
+/**
+ * A Sound represents a synthesizer object with duration
+ */
 public class Sound extends Synth {
 	public Sound(Synth s, double duration) {
 		mDuration = duration;
-		// we construct a new synth object based on the values provided
 		mSynth = s;
 	}
 	
@@ -15,9 +16,7 @@ public class Sound extends Synth {
 	
 	public double getDuration() { return mDuration; }
 
-	public Synth getSynth() { return mSynth; }
-	
-	private Synth mSynth;
-	private double mDuration;
+	private final Synth mSynth;
+	private final double mDuration;
 	
 }

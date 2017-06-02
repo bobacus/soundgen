@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.bobacus.io;
 
 import java.io.BufferedReader;
@@ -19,16 +16,12 @@ import java.util.NoSuchElementException;
  */
 public class LineReader implements Iterable<String>,Closeable {
 
-	
-	public LineReader(String filename) throws FileNotFoundException {
-		this(new BufferedReader(new FileReader(filename)));
-	}
 
 	public LineReader(File file) throws FileNotFoundException {
 		this(new BufferedReader(new FileReader(file)));
 	}
 
-	public LineReader(BufferedReader r) {
+	private LineReader(BufferedReader r) {
 		reader = r;
 	}
 	

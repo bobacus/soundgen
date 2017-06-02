@@ -63,7 +63,7 @@ public class LengthList {
 	
 	/**
 	 * Calculates the offset of the given position from the start of its length
-	 * @param position
+	 * @param position the position
 	 * @return positional offset (0 means the position was the first one in a particular length)
 	 */
 	public int getOffsetForPosition(int position) {
@@ -77,7 +77,7 @@ public class LengthList {
 	 * @param index index of the length
 	 * @return the position of the first point in the length
 	 */
-	public int getStartPosition(int index) {
+	private int getStartPosition(int index) {
 		int sum = 0;
 		int i = 0;
 		for (int s : list) {
@@ -88,25 +88,6 @@ public class LengthList {
 		}
 		return sum;
 	}
-	
-	/**
-	 * Gets the length of a given length - i.e. the nth element of the list originally supplied
-	 * @param index
-	 * @return
-	 */
-	public int getLength(int index) {
-		return list.get(index);
-	}
-	
-	
-	/**
-	 * 
-	 * @return sum of all the lengths in the list
-	 */
-	public int getTotal() {
-		int sum = 0;
-		for (int s : list)
-			sum += s;
-		return sum;
-	}
+
+
 }

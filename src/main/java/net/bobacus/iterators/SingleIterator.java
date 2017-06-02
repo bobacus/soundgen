@@ -6,10 +6,10 @@ import java.util.NoSuchElementException;
 public class SingleIterator<E> implements Iterator<E> {
 
 	public static <T> SingleIterator<T> create(T o) {
-		return new SingleIterator<T>(o);
+		return new SingleIterator<>(o);
 	}
 	
-	public SingleIterator(E o) {
+	private SingleIterator(E o) {
 		if (o==null)
 			throw new NullPointerException();
 		this.object = o;

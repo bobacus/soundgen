@@ -2,7 +2,7 @@ package net.bobacus.soundgen.sampler;
 
 public class SampleChunk {
 
-	public SampleChunk(double[] samples) {
+	SampleChunk(double[] samples) {
 		this.samples = samples;
 	}
 	

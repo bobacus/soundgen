@@ -207,7 +207,7 @@ public abstract class StandardLispValue implements LispValue, Comparable    // B
   }
 
   // Implementation of Iterator interface
-  public Iterator iterator()       { return null;  }
+  public Iterator<LispValue> iterator()       { return null;  }
 
 
   /**

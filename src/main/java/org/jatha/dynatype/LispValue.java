@@ -158,7 +158,7 @@ public interface LispValue extends Comparable
   public int compareTo(Object o);
 
   // Implementation of Iterator interface
-  public Iterator iterator();
+  public Iterator<LispValue> iterator();
 
 
   /**

@@ -14,16 +14,15 @@ import net.bobacus.soundgen.sampler.SampleChunk;
 import net.bobacus.soundgen.sampler.Sampler;
 import net.bobacus.soundgen.sampler.SamplerParams;
 
-public class MultiChannelPlayer {
+class MultiChannelPlayer {
 
 	/**
-	 * LineAvailableException may be caught and rethrown inside a SoundGenException
-	 * @param samplers
-	 * @param duration
-	 * @param params
-	 * @throws SoundGenException
+	 * @param samplers the samplers to use (one per channel)
+	 * @param duration the total duration of audio to play, as the number of samples to be output
+	 * @param params the sampler parameters
+	 * @throws SoundGenException if a LineUnavailableException was thrown when getting or opening the audio line.
 	 */
-	public void play(List<? extends Sampler> samplers, int duration, SamplerParams params)
+	void play(List<? extends Sampler> samplers, int duration, SamplerParams params)
 	{
 		AudioFormat format = new AudioFormat(
 				params.getSampleRate(), params.getBits(), params.getChannels(), true, false);
@@ -36,17 +35,16 @@ public class MultiChannelPlayer {
 			throw new SoundGenException(e);
 		}
 		line.start();
-		int d = duration;
 		int channelCount = samplers.size();
 		int chunkSize = params.getSampleRate() / 2;
-		for (int p = 0; p < d; ) {
-			int q = (d-p >= chunkSize ? chunkSize : d-p);
+		for (int p = 0; p < duration; ) {
+			int q = (duration - p >= chunkSize ? chunkSize : duration - p);
 			double[] samples = new double[q];
 			for (Sampler s : samplers) {
-				Iterator<SampleChunk> ssIter = s.getSamples(q, p);
+				Iterator<SampleChunk> ssIterator = s.getSamples(q, p);
 				int i = 0;
-				for (; ssIter.hasNext() && i<q; ) {
-					SampleChunk c = ssIter.next();
+				for (; ssIterator.hasNext() && i<q; ) {
+					SampleChunk c = ssIterator.next();
 					double[] ss = c.getSamples();
 					for (int j = 0; i<q && j<ss.length; i ++, j ++) {
 						samples[i] += ss[j];

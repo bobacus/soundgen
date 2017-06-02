@@ -6,14 +6,13 @@ import java.util.List;
 
 import net.bobacus.soundgen.synth.Sound;
 
-// A Channel is a sequence of Sounds
+/**
+ * A Channel is a sequence of Sounds
+ */
 public class Channel {
-	public Channel(List<Sound> l) {
-		mSounds = new ArrayList<Sound>(l);
-	}
-	
+
 	public Channel(Iterator<Sound> i) {
-		mSounds = new ArrayList<Sound>();
+		mSounds = new ArrayList<>();
 		while (i.hasNext())
 			mSounds.add(i.next());
 	}

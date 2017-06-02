@@ -7,10 +7,10 @@ import java.util.Iterator;
 public class FunctionIterator<T,U> implements Iterator<U> {
 
 	public static <E,F> FunctionIterator<E,F> create(Iterator<? extends E> i, Function<E,F> fn) {
-		return new FunctionIterator<E,F>(i, fn);
+		return new FunctionIterator<>(i, fn);
 	}
 	
-	public FunctionIterator(Iterator<? extends T> i, Function<T,U> fn) {
+	private FunctionIterator(Iterator<? extends T> i, Function<T, U> fn) {
 		this.iter = i;
 		this.fn = fn;
 	}

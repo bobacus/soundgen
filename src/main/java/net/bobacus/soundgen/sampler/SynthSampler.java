@@ -7,7 +7,7 @@ import net.bobacus.soundgen.synth.Synth;
 
 public class SynthSampler extends AbstractSampler {
 
-	public SynthSampler(Synth s, SamplerParams p) {
+	SynthSampler(Synth s, SamplerParams p) {
 		super(p);
 		mSynth = s;
 		xInc = 1.0/mSampleRate;
